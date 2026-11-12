@@ -2,7 +2,7 @@
 <html lang="de">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>Escape the Backrooms</title>
 <style>
 html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:"Courier New",Courier,monospace;color:#f3e7a8;user-select:none;-webkit-user-select:none}
@@ -38,7 +38,7 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:"Cour
 #mini{right:14px;top:14px;width:200px;height:200px;border:2px solid rgba(243,231,168,.45);border-radius:50%;background:rgba(0,0,0,.6);box-shadow:0 0 12px rgba(0,0,0,.8)}
 #miniLbl{right:4px;top:220px;width:224px;white-space:nowrap;text-align:center;font-size:11px;opacity:.8}
 #bigmap{left:50%;top:50%;transform:translate(-50%,-50%);width:min(80vh,80vw);height:min(80vh,80vw);border:2px solid rgba(243,231,168,.5);display:none;image-rendering:pixelated}
-.ov{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:rgba(10,8,2,.9);text-align:center;padding:20px;box-sizing:border-box;overflow:auto}
+.ov{z-index:20;position:fixed;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;background:rgba(10,8,2,.9);text-align:center;padding:20px;box-sizing:border-box;overflow:auto}
 .ov h1{font-size:clamp(28px,6vw,64px);letter-spacing:4px;margin:0 0 10px;color:#efe08a;text-shadow:0 0 18px rgba(239,224,138,.5)}
 .ov p{max-width:660px;line-height:1.55;margin:6px 0}
 .ov .keys{display:grid;grid-template-columns:auto auto;gap:4px 18px;text-align:left;margin:14px auto;font-size:15px}
@@ -47,6 +47,35 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:"Cour
 .btn:hover{background:#fff3a8}
 #end h1.lose{color:#d33;text-shadow:0 0 18px rgba(255,0,0,.5)}
 .hidden{display:none!important}
+/* ---- touch / mobile ---- */
+html,body{touch-action:none;-webkit-touch-callout:none;overscroll-behavior:none}
+.ov{touch-action:pan-y}
+#touch{position:fixed;inset:0;display:none;pointer-events:none!important;z-index:4}
+#tjoy{position:absolute;left:0;bottom:0;width:45%;height:75%;pointer-events:auto;touch-action:none}
+#tlook{position:absolute;right:0;top:0;width:55%;height:100%;pointer-events:auto;touch-action:none}
+#tbase{position:absolute;width:124px;height:124px;border-radius:50%;border:2px solid rgba(243,231,168,.5);background:rgba(0,0,0,.25);display:none;transform:translate(-50%,-50%)}
+#tknob{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px 0 0 -27px;border-radius:50%;background:rgba(243,231,168,.6)}
+#tbtns{position:absolute;right:14px;bottom:14px;display:grid;grid-template-columns:repeat(2,66px);gap:10px;pointer-events:auto}
+.tb{width:66px;height:66px;border-radius:50%;border:2px solid rgba(243,231,168,.65);background:rgba(20,16,4,.55);color:#f3e7a8;font:bold 12px "Courier New",monospace;touch-action:none;-webkit-user-select:none;user-select:none;padding:0}
+.tb.big{grid-column:span 2;width:142px;border-radius:33px}
+.tb.on{background:rgba(243,231,168,.55);color:#000}
+#tpause{position:absolute;top:10px;left:50%;transform:translateX(-50%);width:44px;height:36px;border-radius:8px;border:2px solid rgba(243,231,168,.55);background:rgba(20,16,4,.55);color:#f3e7a8;font:bold 14px monospace;pointer-events:auto}
+.thint{position:absolute;bottom:10px;font-size:11px;opacity:.5;pointer-events:none}
+#rotate{position:fixed;inset:0;z-index:30;display:none;align-items:center;justify-content:center;flex-direction:column;background:rgba(0,0,0,.92);color:#f3e7a8;font-size:20px;text-align:center;padding:30px}
+#rotate .ic{font-size:60px;margin-bottom:12px}
+#panel{z-index:5}
+@media (orientation:portrait){.touchdev.playing #rotate{display:flex}}
+.touchdev #panel{bottom:auto;top:24%}
+.touchdev #bars{left:auto;right:180px;bottom:auto;top:14px;width:120px}
+@media (max-height:520px){
+  #inv{font-size:11px;padding:4px 8px;line-height:1.5}#inv svg{width:16px;height:16px}
+  #mini{width:118px;height:118px}#miniLbl{top:134px;width:142px;font-size:9px;white-space:normal}
+  #msg{font-size:13px;white-space:normal;width:60vw;top:12%}
+  #prompt{font-size:13px;white-space:normal;width:60vw;bottom:auto;top:62%}
+  .ov h1{font-size:30px}.ov p{font-size:13px;margin:3px 0}.lvl{padding:12px}.lvl h2{font-size:20px}.lvl p{font-size:12px}
+  .touchdev #bars{right:140px}
+  #sub{bottom:12vh;font-size:15px}
+}
 #ptint{position:fixed;inset:0;pointer-events:none;opacity:0;z-index:6;background:radial-gradient(ellipse at center,rgba(255,255,255,.9) 0%,rgba(190,120,255,.85) 35%,rgba(70,10,170,.95) 100%)}
 .lvl2 #bars{display:none}
 .lvl2 #bloom{opacity:.14}
@@ -78,6 +107,13 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:"Cour
 <div id="vig"></div>
 <div id="danger"></div>
 <div id="cross"></div>
+<div id="touch" class="hud">
+  <div id="tjoy"><div id="tbase"><div id="tknob"></div></div><div class="thint" style="left:16px">◀ Laufen</div></div>
+  <div id="tlook"><div class="thint" style="right:170px">Wischen = Umsehen ▶</div></div>
+  <div id="tbtns"></div>
+  <button id="tpause">II</button>
+</div>
+<div id="rotate"><div class="ic">📱↻</div>Bitte das Handy <b>quer</b> halten</div>
 <div class="lb" id="lbT"></div><div class="lb" id="lbB"></div>
 <div id="flash"></div><div id="ptint"></div><div id="fade"></div><div id="sub"></div>
 
@@ -123,6 +159,7 @@ html,body{margin:0;height:100%;background:#000;overflow:hidden;font-family:"Cour
     <b>W A S D</b><span>Laufen</span>
     <b>Maus / ← →</b><span>Umsehen</span>
     <b>M</b><span>Große Karte (Level 1)</span>
+    <b>📱 Handy</b><span>Joystick links · rechts wischen zum Umsehen · Knöpfe rechts unten (Handy quer halten)</span>
   </div>
   <p style="opacity:.6;font-size:13px">Kopfhörer empfohlen.</p>
 </div>
@@ -668,7 +705,7 @@ let LEVEL=1;
 function startGame(){startLevel(LEVEL)}
 function showMenu(){state='start';try{document.exitPointerLock()}catch(e){};['end','pause'].forEach(i=>$(i).classList.add('hidden'));$('start').classList.remove('hidden');if(AC)AC.resume();setGain(droneGain,0);setGain(whisperGain,0)}
 function startLevel(n){
-  LEVEL=n;document.body.classList.toggle('lvl2',n===2);document.body.classList.toggle('lvl3',n===3);
+  LEVEL=n;setTouchButtons(n);document.body.classList.toggle('lvl2',n===2);document.body.classList.toggle('lvl3',n===3);
   initAudio();SCARE=n===2?KAPPA_SCARE:n===3?SPIDER_SCARE:MON_SCARE;CAM.flash=null;
   if(n===3){setupL3();CUT=null;CAM.h=0.5;CAM.extra=[];CAM.hideMon=false;CAM.flash=null;document.body.classList.remove('cine');$('fade').style.opacity=0;$('ptint').style.opacity=0;subtitle('');
     updateInv();renderPanel(null);$('start').classList.add('hidden');$('end').classList.add('hidden');$('pause').classList.add('hidden');
@@ -718,8 +755,7 @@ function update(dt){
   const turn=(keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0);
   P.a+=turn*2.4*dt+mouseDX*0.0028;mouseDX=0;
   const dirX=Math.cos(P.a),dirY=Math.sin(P.a);
-  const fw=((keys.KeyW||keys.ArrowUp)?1:0)-((keys.KeyS||keys.ArrowDown)?1:0);
-  const sr=(keys.KeyD?1:0)-(keys.KeyA?1:0);
+  const fw=axisF(),sr=axisS();
   let mx=dirX*fw-dirY*sr,my=dirY*fw+dirX*sr;const ml=Math.hypot(mx,my);
   P.moving=ml>0;
   P.sprint=(keys.ShiftLeft||keys.ShiftRight)&&P.moving&&P.stam>0.02;
@@ -1345,8 +1381,7 @@ function updatePool(dt){
   const turn=(keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0);
   P.a+=turn*2.4*dt+mouseDX*0.0028;mouseDX=0;
   const dirX=Math.cos(P.a),dirY=Math.sin(P.a);
-  const fw=((keys.KeyW||keys.ArrowUp)?1:0)-((keys.KeyS||keys.ArrowDown)?1:0);
-  const sr=(keys.KeyD?1:0)-(keys.KeyA?1:0);
+  const fw=axisF(),sr=axisS();
   let mx=dirX*fw-dirY*sr,my=dirY*fw+dirX*sr;const ml=Math.hypot(mx,my);
   P.moving=ml>0;
   const gr0=groundAt(P.x,P.y);
@@ -1995,7 +2030,7 @@ function updateL3(dt){
   const turn=(keys.ArrowRight?1:0)-(keys.ArrowLeft?1:0);
   P.a+=turn*2.4*dt+mouseDX*0.0028;mouseDX=0;
   const dirX=Math.cos(P.a),dirY=Math.sin(P.a);
-  const fw=((keys.KeyW||keys.ArrowUp)?1:0)-((keys.KeyS||keys.ArrowDown)?1:0),sr=(keys.KeyD?1:0)-(keys.KeyA?1:0);
+  const fw=axisF(),sr=axisS();
   let mx=dirX*fw-dirY*sr,my=dirY*fw+dirX*sr;const ml=Math.hypot(mx,my);
   P.moving=ml>0;
   P.sprint=(keys.ShiftLeft||keys.ShiftRight)&&P.moving&&P.stam>0.02;
@@ -2260,10 +2295,51 @@ function drawCut3Overlay(){
 const SPIDER_SCARE={frames:SPIDER,crop:[72,40,112,116]};
 const KAPPA_SCARE={frames:KAPPA,crop:[0,0,192,150]};
 
+// ================= Touch controls =================
+const IS_TOUCH=('ontouchstart' in window)||(navigator.maxTouchPoints>0&&matchMedia('(pointer: coarse)').matches);
+const TJ={id:null,ox:0,oy:0,x:0,y:0},LK={id:null,x:0};
+function joyMag(){return Math.hypot(TJ.x,TJ.y)}
+function axisF(){let v=((keys.KeyW||keys.ArrowUp)?1:0)-((keys.KeyS||keys.ArrowDown)?1:0);if(TJ.id!=null&&joyMag()>0.2)v-=TJ.y;return Math.max(-1,Math.min(1,v))}
+function axisS(){let v=(keys.KeyD?1:0)-(keys.KeyA?1:0);if(TJ.id!=null&&joyMag()>0.2)v+=TJ.x;return Math.max(-1,Math.min(1,v))}
+function fakeKey(type,code){window.dispatchEvent(new KeyboardEvent(type,{code,key:code}))}
+function setTouchButtons(level){
+  const B=level===1?[['RENNEN','ShiftLeft','hold'],['E','KeyE'],['FALLE','KeyF'],['DRINK','KeyQ']]
+         :level===2?[['SPRINGEN','Space','tap','big'],['E','KeyE']]
+         :[['LICHT','KeyF'],['E','KeyE'],['RENNEN','ShiftLeft','hold','big']];
+  const box=$('tbtns');box.innerHTML='';
+  for(const [label,code,mode,cls] of B){
+    const b=document.createElement('button');b.className='tb'+(cls?' '+cls:'');b.textContent=label;
+    const down=e=>{e.preventDefault();e.stopPropagation();b.classList.add('on');fakeKey('keydown',code);if(mode!=='hold')setTimeout(()=>{fakeKey('keyup',code);b.classList.remove('on')},130)};
+    const up=e=>{if(mode==='hold'){fakeKey('keyup',code);b.classList.remove('on')}};
+    b.addEventListener('pointerdown',down);b.addEventListener('pointerup',up);b.addEventListener('pointercancel',up);b.addEventListener('pointerleave',up);
+    box.appendChild(b);
+  }
+}
+(()=>{
+  const joy=$('tjoy'),base=$('tbase'),knob=$('tknob'),look=$('tlook');
+  joy.addEventListener('pointerdown',e=>{e.preventDefault();TJ.id=e.pointerId;TJ.ox=e.clientX;TJ.oy=e.clientY;TJ.x=TJ.y=0;base.style.display='block';base.style.left=e.clientX+'px';base.style.top=e.clientY+'px';knob.style.transform='';try{joy.setPointerCapture(e.pointerId)}catch(_){}});
+  joy.addEventListener('pointermove',e=>{if(e.pointerId!==TJ.id)return;let dx=e.clientX-TJ.ox,dy=e.clientY-TJ.oy;const R=52,l=Math.hypot(dx,dy);if(l>R){dx*=R/l;dy*=R/l}TJ.x=dx/R;TJ.y=dy/R;knob.style.transform=`translate(${dx}px,${dy}px)`});
+  const jend=e=>{if(e.pointerId!==TJ.id)return;TJ.id=null;TJ.x=TJ.y=0;base.style.display='none'};
+  joy.addEventListener('pointerup',jend);joy.addEventListener('pointercancel',jend);
+  look.addEventListener('pointerdown',e=>{e.preventDefault();LK.id=e.pointerId;LK.x=e.clientX;try{look.setPointerCapture(e.pointerId)}catch(_){}});
+  look.addEventListener('pointermove',e=>{if(e.pointerId!==LK.id)return;mouseDX+=(e.clientX-LK.x)*1.7;LK.x=e.clientX});
+  const lend=e=>{if(e.pointerId===LK.id)LK.id=null};
+  look.addEventListener('pointerup',lend);look.addEventListener('pointercancel',lend);
+  $('tpause').addEventListener('pointerdown',e=>{e.preventDefault();e.stopPropagation();if(state==='play')pauseGame()});
+  if(IS_TOUCH){document.body.classList.add('touchdev');qi=1;resize()}
+  window.addEventListener('contextmenu',e=>{if(IS_TOUCH)e.preventDefault()});
+})();
+let lastTouchVis=null;
+function updateTouchUI(){
+  const vis=IS_TOUCH&&state==='play';
+  if(vis!==lastTouchVis){$('touch').style.display=vis?'block':'none';document.body.classList.toggle('playing',vis);lastTouchVis=vis;if(!vis){TJ.id=null;TJ.x=TJ.y=0;$('tbase').style.display='none';LK.id=null;keys.ShiftLeft=false}}
+}
+
 // ================= Loop =================
 let last=performance.now(),slow=0;
 function frame(now){
   const raw=(now-last)/1000,dt=Math.min(0.05,raw);last=now;
+  updateTouchUI();
   if(state==='play'&&LEVEL===3){
     updateL3(dt);
     if(state==='play'){renderL3(now);drawMini3(now)}
